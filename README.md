@@ -1,2 +1,2 @@
-# goit-react-hw-09-phonebook
-React Homework. Module 9.
+# React Homework. Module 9.
+Phonebook App with hooks :)
