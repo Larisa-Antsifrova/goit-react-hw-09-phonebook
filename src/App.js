@@ -1,5 +1,5 @@
 // React imports
-import React, { Component, Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 // Components imports
@@ -15,7 +15,7 @@ import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 
 // Imports from Redux
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // Operations imports
 import { getCurrentUser } from './redux/auth/auth-operations';
@@ -37,54 +37,49 @@ const NotFoundPage = lazy(() =>
   import('./views/NotFoundPage' /* webpackChunkName: "contacts-page" */),
 );
 
-class App extends Component {
-  componentDidMount() {
-    this.props.getCurrentUser();
-  }
+export default function App() {
+  const dispatch = useDispatch();
 
-  render() {
-    return (
-      <>
-        <Suspense
-          fallback={
-            <Loader
-              type="TailSpin"
-              color="#80cbc4"
-              height={80}
-              width={80}
-              className="loader"
-            />
-          }
-        >
-          <AppBar />
-          <Switch>
-            <Route exact path={routes.home} component={HomePage} />
-            <PublicRoute
-              path={routes.register}
-              component={RegisterPage}
-              restricted
-              redirectTo={routes.home}
-            />
-            <PublicRoute
-              path={routes.login}
-              component={LoginPage}
-              restricted
-              redirectTo={routes.contacts}
-            />
-            <PrivateRoute
-              path={routes.contacts}
-              component={ContactsPage}
-              redirectTo={routes.login}
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </Suspense>
-      </>
-    );
-  }
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
+  return (
+    <>
+      <Suspense
+        fallback={
+          <Loader
+            type="TailSpin"
+            color="#80cbc4"
+            height={80}
+            width={80}
+            className="loader"
+          />
+        }
+      >
+        <AppBar />
+        <Switch>
+          <Route exact path={routes.home} component={HomePage} />
+          <PublicRoute
+            path={routes.register}
+            component={RegisterPage}
+            restricted
+            redirectTo={routes.home}
+          />
+          <PublicRoute
+            path={routes.login}
+            component={LoginPage}
+            restricted
+            redirectTo={routes.contacts}
+          />
+          <PrivateRoute
+            path={routes.contacts}
+            component={ContactsPage}
+            redirectTo={routes.login}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Suspense>
+    </>
+  );
 }
-
-const mapDispatchToProps = {
-  getCurrentUser,
-};
-export default connect(null, mapDispatchToProps)(App);
