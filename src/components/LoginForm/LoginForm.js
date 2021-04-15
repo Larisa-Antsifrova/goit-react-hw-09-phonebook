@@ -1,80 +1,91 @@
-// Imports from React
-import React, { Component } from 'react';
+// React imports
+import React, { useCallback, useState } from 'react';
+
 // Imports from Redux
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loginUser } from '../../redux/auth/auth-operations';
-// Imports of components
+
+// Components imports
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-// Imports of styles
+
+// Styles imports
 import styles from './LoginForm.module.css';
-class LoginForm extends Component {
-  state = {
-    email: '',
-    password: '',
-  };
 
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
+export default function LoginForm() {
+  // Setting up state for input values
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  // Getting dispatch function
+  const dispatch = useDispatch();
 
-  handleSubmit = e => {
-    e.preventDefault();
+  // Function to handle inputs
+  const handleChange = useCallback(({ target: { name, value } }) => {
+    switch (name) {
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+      default:
+        return;
+    }
+  }, []);
 
-    this.props.onSubmit(this.state);
+  // Function to handle form submit
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
 
-    this.setState({ name: '', email: '', password: '' });
-  };
+      const user = {
+        email: email.trim(),
+        password: password.trim(),
+      };
 
-  render() {
-    const { email, password } = this.state;
+      dispatch(loginUser(user));
 
-    return (
-      <form
-        onSubmit={this.handleSubmit}
-        autoComplete="off"
-        className={styles.form}
+      setEmail('');
+      setPassword('');
+    },
+    [dispatch, email, password],
+  );
+
+  return (
+    <form onSubmit={handleSubmit} autoComplete="off" className={styles.form}>
+      <TextField
+        id="outlined-basic"
+        variant="outlined"
+        label="Email"
+        inputProps={{
+          type: 'email',
+          name: 'email',
+          value: email,
+          onChange: handleChange,
+        }}
+        className={styles.input}
+      />
+
+      <TextField
+        id="outlined-basic"
+        variant="outlined"
+        label="Password"
+        inputProps={{
+          type: 'password',
+          name: 'password',
+          value: password,
+          onChange: handleChange,
+        }}
+        className={styles.input}
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        className={styles.button}
       >
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          label="Email"
-          inputProps={{
-            type: 'email',
-            name: 'email',
-            value: email,
-            onChange: this.handleChange,
-          }}
-          className={styles.input}
-        />
-
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          label="Password"
-          inputProps={{
-            type: 'password',
-            name: 'password',
-            value: password,
-            onChange: this.handleChange,
-          }}
-          className={styles.input}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          className={styles.button}
-        >
-          Login
-        </Button>
-      </form>
-    );
-  }
+        Login
+      </Button>
+    </form>
+  );
 }
-
-const mapDispatchToProps = {
-  onSubmit: loginUser,
-};
-
-export default connect(null, mapDispatchToProps)(LoginForm);

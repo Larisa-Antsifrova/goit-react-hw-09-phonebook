@@ -1,4 +1,4 @@
-// Imports from React
+// React imports
 import React from 'react';
 
 // Imports of helpers
