@@ -1,4 +1,4 @@
-// Imports from React
+// React imports
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -6,10 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 // Imports from Redux
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
+
 // Imports from Redux Persist
 import { PersistGate } from 'redux-persist/integration/react';
 
-// Imports of components
+// Components imports
 import App from './App';
 
 // Styles imports
