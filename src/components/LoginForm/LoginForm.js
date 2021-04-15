@@ -54,7 +54,6 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} autoComplete="off" className={styles.form}>
       <TextField
-        id="outlined-basic"
         variant="outlined"
         label="Email"
         inputProps={{
@@ -67,7 +66,6 @@ export default function LoginForm() {
       />
 
       <TextField
-        id="outlined-basic"
         variant="outlined"
         label="Password"
         inputProps={{

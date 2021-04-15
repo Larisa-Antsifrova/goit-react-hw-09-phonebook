@@ -61,7 +61,6 @@ export default function RegisterForm() {
   return (
     <form onSubmit={handleSubmit} autoComplete="off" className={styles.form}>
       <TextField
-        id="outlined-basic"
         variant="outlined"
         label="Name"
         inputProps={{
@@ -73,7 +72,6 @@ export default function RegisterForm() {
         className={styles.input}
       />
       <TextField
-        id="outlined-basic"
         variant="outlined"
         label="Email"
         inputProps={{
@@ -85,7 +83,6 @@ export default function RegisterForm() {
         className={styles.input}
       />
       <TextField
-        id="outlined-basic"
         variant="outlined"
         label="Password"
         inputProps={{
