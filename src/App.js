@@ -65,26 +65,27 @@ export default function App() {
 
           <PublicRoute
             path={routes.register}
-            restricted
             redirectTo={routes.contacts}
+            restricted
           >
             <RegisterPage />
           </PublicRoute>
 
           <PublicRoute
             path={routes.login}
-            restricted
             redirectTo={routes.contacts}
+            restricted
           >
             <LoginPage />
           </PublicRoute>
 
-          <PrivateRoute
-            path={routes.contacts}
-            component={ContactsPage}
-            redirectTo={routes.login}
-          />
-          <Route component={NotFoundPage} />
+          <PrivateRoute path={routes.contacts} redirectTo={routes.login}>
+            <ContactsPage />
+          </PrivateRoute>
+
+          <Route>
+            <NotFoundPage />
+          </Route>
         </Switch>
       </Suspense>
     </>
