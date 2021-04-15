@@ -1,6 +1,7 @@
 // Imports from Redux Toolkit
 import { createAction } from '@reduxjs/toolkit';
 
+// Actions for HTTP requests
 const fetchContactsRequest = createAction('contacts/fetchContactsRequest');
 const fetchContactsSuccess = createAction('contacts/fetchContactsSuccess');
 const fetchContactsError = createAction('contacts/fetchContactsError');
@@ -13,6 +14,7 @@ const deleteContactRequest = createAction('contacts/deleteContactRequest');
 const deleteContactSuccess = createAction('contacts/deleteContactSuccess');
 const deleteContactError = createAction('contacts/deleteContactError');
 
+// Action to update filter
 const updateFilter = createAction('phonebook/updateFilter');
 
 export {

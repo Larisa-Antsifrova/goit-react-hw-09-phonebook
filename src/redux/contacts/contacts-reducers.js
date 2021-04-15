@@ -1,7 +1,9 @@
-// Imports from Redux
+// Redux imports
 import { combineReducers } from 'redux';
+
 // Imports from Redux Toolkit
 import { createReducer } from '@reduxjs/toolkit';
+
 // Imports of actions
 import {
   fetchContactsRequest,
@@ -17,6 +19,7 @@ import {
 } from './contacts-actions';
 import { logoutSuccess } from '../auth/auth-actions';
 
+// Reducer to handle all contacts
 const items = createReducer([], {
   [fetchContactsSuccess]: (_, { payload }) => payload,
   [addContactSuccess]: (state, { payload }) => [payload, ...state],
@@ -25,10 +28,12 @@ const items = createReducer([], {
   [logoutSuccess]: () => [],
 });
 
+// Reducer to handle filter value
 const filter = createReducer('', {
   [updateFilter]: (_, { payload }) => payload,
 });
 
+// Reducer to handle loading status
 const loading = createReducer(false, {
   [fetchContactsRequest]: () => true,
   [fetchContactsSuccess]: () => false,
@@ -41,6 +46,7 @@ const loading = createReducer(false, {
   [deleteContactError]: () => false,
 });
 
+// Reducer to handle error
 const error = createReducer(null, {
   [fetchContactsError]: (_, { payload }) => payload,
   [addContactError]: (_, { payload }) => payload,

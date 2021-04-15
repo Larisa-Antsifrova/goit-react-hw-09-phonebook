@@ -13,10 +13,12 @@ import {
   getCurrentUserSuccess,
   getCurrentUserError,
 } from './auth-actions';
+
 // Imports of libraries
 import axios from 'axios';
 axios.defaults.baseURL = 'https://goit-phonebook-api.herokuapp.com';
 
+// Token object with methods to set and uset the token from headers
 const authToken = {
   set(token) {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -26,6 +28,7 @@ const authToken = {
   },
 };
 
+// Function to register a new user
 const registerUser = user => async dispatch => {
   dispatch(registerRequest());
 
@@ -39,6 +42,7 @@ const registerUser = user => async dispatch => {
   }
 };
 
+// Function to login an existing user
 const loginUser = user => async dispatch => {
   dispatch(loginRequest());
 
@@ -52,6 +56,7 @@ const loginUser = user => async dispatch => {
   }
 };
 
+// Function to log out user
 const logoutUser = () => async dispatch => {
   dispatch(logoutRequest());
 
@@ -64,6 +69,7 @@ const logoutUser = () => async dispatch => {
   }
 };
 
+// Function to get current user status
 const getCurrentUser = () => async (dispatch, getState) => {
   const {
     auth: { token },
