@@ -59,19 +59,26 @@ export default function App() {
       >
         <AppBar />
         <Switch>
-          <Route exact path={routes.home} component={HomePage} />
+          <Route exact path={routes.home}>
+            <HomePage />
+          </Route>
+
           <PublicRoute
             path={routes.register}
-            component={RegisterPage}
-            restricted
-            redirectTo={routes.home}
-          />
-          <PublicRoute
-            path={routes.login}
-            component={LoginPage}
             restricted
             redirectTo={routes.contacts}
-          />
+          >
+            <RegisterPage />
+          </PublicRoute>
+
+          <PublicRoute
+            path={routes.login}
+            restricted
+            redirectTo={routes.contacts}
+          >
+            <LoginPage />
+          </PublicRoute>
+
           <PrivateRoute
             path={routes.contacts}
             component={ContactsPage}
