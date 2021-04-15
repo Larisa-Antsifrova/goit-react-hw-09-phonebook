@@ -1,0 +1,27 @@
+.UserMenu {
+  display: flex;
+  margin-left: auto;
+
+  align-items: center;
+
+  color: #ffffff;
+}
+
+.logoutbutton {
+  display: block;
+  padding: 15px;
+  margin-left: 10px;
+
+  font-weight: 500;
+  color: #ffffff;
+
+  outline: none;
+  border: none;
+  background-color: transparent;
+
+  cursor: pointer;
+}
+
+.logoutbutton:hover {
+  background-color: #283593;
+}
