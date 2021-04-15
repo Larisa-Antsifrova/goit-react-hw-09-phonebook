@@ -1,6 +1,7 @@
-// Imports from React
+// React imports
 import React from 'react';
-// Imports of components
+
+// Components imports
 import Main from '../components/Main';
 import Section from '../components/Section';
 import PageTitle from '../components/PageTitle';
