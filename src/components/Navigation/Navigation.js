@@ -5,9 +5,6 @@ import { NavLink } from 'react-router-dom';
 // Components imports
 import Logo from '../Logo';
 
-// Imports of helpers
-import PropTypes from 'prop-types';
-
 // Routes imports
 import routes from '../../routes';
 
@@ -54,11 +51,3 @@ export default function Navigation() {
     </nav>
   );
 }
-
-Navigation.defaultProps = {
-  isAuthenticated: false,
-};
-
-Navigation.propTypes = {
-  isAuthenticated: PropTypes.bool,
-};
