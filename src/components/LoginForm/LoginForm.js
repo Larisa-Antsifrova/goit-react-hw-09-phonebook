@@ -56,6 +56,7 @@ export default function LoginForm() {
       <TextField
         variant="outlined"
         label="Email"
+        required
         inputProps={{
           type: 'email',
           name: 'email',
@@ -68,6 +69,7 @@ export default function LoginForm() {
       <TextField
         variant="outlined"
         label="Password"
+        required
         inputProps={{
           type: 'password',
           name: 'password',
