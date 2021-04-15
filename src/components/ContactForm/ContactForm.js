@@ -1,93 +1,96 @@
-// Imports from React
-import React, { Component } from 'react';
+// React imports
+import React, { useCallback, useState } from 'react';
+
 // Imports from Redux
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contacts/contacts-operations';
 import { getAllContacts } from '../../redux/contacts/contacts-selectors';
-// Helpers imports
-import PropTypes from 'prop-types';
+
 // Styles imports
 import styles from './ContactForm.module.css';
 
-class ContactForm extends Component {
-  state = { name: '', number: '' };
+export default function ContactForm() {
+  // Setting up state for input values
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  // Getting all contacts from store
+  const allContacts = useSelector(getAllContacts);
+  // Getting dispatch function
+  const dispatch = useDispatch();
 
-  static propTypes = {
-    submitHandler: PropTypes.func.isRequired,
-  };
-
-  handleInputChange = event => {
+  // Function to handle inputs
+  const handleInputChange = useCallback(event => {
     const { name, value } = event.currentTarget;
-
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
-    const { name, number } = this.state;
-    const { items, submitHandler } = this.props;
-
-    if (!name) {
-      return;
+    // Switching through input names to update the right slice of state and, thus, input value
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        return;
     }
+  }, []);
 
-    const existingContact = items.find(contact => contact.name === name);
+  // Function to handle form submit
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
 
-    if (existingContact) {
-      alert(`${existingContact.name} is already in contacts.`);
-      return;
-    }
+      if (!name) {
+        return;
+      }
 
-    const newContact = { name: name.trim(), number: number.trim() };
+      // Checking if the contact already exists
+      const existingContact = allContacts.find(
+        contact => contact.name === name,
+      );
 
-    submitHandler(newContact);
+      if (existingContact) {
+        alert(`${existingContact.name} is already in contacts.`);
+        return;
+      }
 
-    this.reset();
-  };
+      // If the contact does not exist, forming a new contact object
+      const newContact = { name: name.trim(), number: number.trim() };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
-  };
+      // Dispatching action to add new contact to DB
+      dispatch(addContact(newContact));
 
-  render() {
-    return (
-      <form className={styles.form} onSubmit={this.handleSubmit}>
-        <label>
-          Name
-          <input
-            type="name"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Number
-          <input
-            type="tel"
-            name="number"
-            value={this.state.number}
-            onChange={this.handleInputChange}
-            required
-          />
-        </label>
-        <button type="submit" className={styles.btn}>
-          Add
-        </button>
-      </form>
-    );
-  }
+      // Reseting local state to clean up input values
+      setName('');
+      setNumber('');
+    },
+    [allContacts, dispatch, name, number],
+  );
+
+  return (
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <label>
+        Name
+        <input
+          type="name"
+          name="name"
+          value={name}
+          onChange={handleInputChange}
+          required
+        />
+      </label>
+      <label>
+        Number
+        <input
+          type="tel"
+          name="number"
+          value={number}
+          onChange={handleInputChange}
+          required
+        />
+      </label>
+      <button type="submit" className={styles.btn}>
+        Add
+      </button>
+    </form>
+  );
 }
-
-const mapStateToProps = state => ({
-  items: getAllContacts(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  submitHandler: contact => dispatch(addContact(contact)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
