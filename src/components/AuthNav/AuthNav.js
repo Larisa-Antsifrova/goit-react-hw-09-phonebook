@@ -1,8 +1,10 @@
-// Imports from React
+// React imports
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+
 // Imports of routes
 import routes from '../../routes';
+
 // Styles imports
 import styles from './AuthNav.module.css';
 
