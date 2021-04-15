@@ -1,15 +1,23 @@
+// React imports
 import React from 'react';
-import { AppBar as PhoneBookBar } from '@material-ui/core';
+
+// Components imports
 import Container from '../Container';
 import Navigation from '../Navigation';
 import UserMenu from '../UserMenu';
 import AuthNav from '../AuthNav';
-import { connect } from 'react-redux';
+
+// Imports from Redux
+import { useSelector } from 'react-redux';
 import { getIsAuthenticated } from '../../redux/auth/auth-selectors';
 
+// Styles imports
+import { AppBar as PhoneBookBar } from '@material-ui/core';
 import styles from './AppBar.module.css';
 
-const AppBar = ({ isAuthenticated }) => {
+export default function AppBar() {
+  const isAuthenticated = useSelector(getIsAuthenticated);
+
   return (
     <PhoneBookBar position="static">
       <Container>
@@ -20,10 +28,4 @@ const AppBar = ({ isAuthenticated }) => {
       </Container>
     </PhoneBookBar>
   );
-};
-
-const mapStateToProps = state => ({
-  isAuthenticated: getIsAuthenticated(state),
-});
-
-export default connect(mapStateToProps)(AppBar);
+}
