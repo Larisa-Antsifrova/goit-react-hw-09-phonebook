@@ -11,41 +11,33 @@ import styles from './ContactForm.module.css';
 
 export default function ContactForm() {
   // Setting up state for input values
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [newContact, setNewContact] = useState({ name: '', number: '' });
   // Getting all contacts from store
   const allContacts = useSelector(getAllContacts);
   // Getting dispatch function
   const dispatch = useDispatch();
 
   // Function to handle inputs
-  const handleInputChange = useCallback(event => {
-    const { name, value } = event.currentTarget;
-    // Switching through input names to update the right slice of state and, thus, input value
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'number':
-        setNumber(value);
-        break;
-      default:
-        return;
-    }
-  }, []);
+  const handleInputChange = useCallback(
+    event => {
+      const { name, value } = event.currentTarget;
+      setNewContact({ ...newContact, [name]: value });
+    },
+    [newContact],
+  );
 
   // Function to handle form submit
   const handleSubmit = useCallback(
     event => {
       event.preventDefault();
 
-      if (!name) {
+      if (!newContact.name) {
         return;
       }
 
       // Checking if the contact already exists
       const existingContact = allContacts.find(
-        contact => contact.name === name,
+        contact => contact.name === newContact.name,
       );
 
       if (existingContact) {
@@ -53,17 +45,13 @@ export default function ContactForm() {
         return;
       }
 
-      // If the contact does not exist, forming a new contact object
-      const newContact = { name: name.trim(), number: number.trim() };
-
       // Dispatching action to add new contact to DB
       dispatch(addContact(newContact));
 
       // Reseting local state to clean up input values
-      setName('');
-      setNumber('');
+      setNewContact({ name: '', number: '' });
     },
-    [allContacts, dispatch, name, number],
+    [allContacts, dispatch, newContact],
   );
 
   return (
@@ -73,7 +61,7 @@ export default function ContactForm() {
         <input
           type="name"
           name="name"
-          value={name}
+          value={newContact.name}
           onChange={handleInputChange}
           required
         />
@@ -83,7 +71,7 @@ export default function ContactForm() {
         <input
           type="tel"
           name="number"
-          value={number}
+          value={newContact.number}
           onChange={handleInputChange}
           required
         />
