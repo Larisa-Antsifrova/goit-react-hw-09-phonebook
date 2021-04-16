@@ -19,8 +19,7 @@ export default function ContactForm() {
 
   // Function to handle inputs
   const handleInputChange = useCallback(
-    event => {
-      const { name, value } = event.currentTarget;
+    ({ target: { name, value } }) => {
       setNewContact({ ...newContact, [name]: value });
     },
     [newContact],
