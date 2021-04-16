@@ -21,7 +21,7 @@ export default function LoginForm() {
   // Function to handle inputs
   const handleChange = useCallback(
     ({ target: { name, value } }) => {
-      setUser({ ...user, [name]: value });
+      setUser({ ...user, [name]: value.trim() });
     },
     [user],
   );

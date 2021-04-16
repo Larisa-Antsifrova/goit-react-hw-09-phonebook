@@ -14,48 +14,28 @@ import styles from './RegisterForm.module.css';
 
 export default function RegisterForm() {
   // Setting up state for input values
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [newUser, setNewUser] = useState({ name: '', email: '', password: '' });
   // Getting dispatch function
   const dispatch = useDispatch();
 
   // Function to handle inputs
-  const handleChange = useCallback(({ target: { name, value } }) => {
-    // Switching through input names to update the right slice of state and, thus, input value
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'email':
-        setEmail(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      default:
-        return;
-    }
-  }, []);
+  const handleChange = useCallback(
+    ({ target: { name, value } }) => {
+      setNewUser({ ...newUser, [name]: value.trim() });
+    },
+    [newUser],
+  );
 
   // Function to handle form submit
   const handleSubmit = useCallback(
     event => {
       event.preventDefault();
 
-      const newUser = {
-        name: name.trim(),
-        email: email.trim(),
-        password: password.trim(),
-      };
-
       dispatch(registerUser(newUser));
 
-      setName('');
-      setEmail('');
-      setPassword('');
+      setNewUser({ name: '', email: '', password: '' });
     },
-    [dispatch, email, name, password],
+    [dispatch, newUser],
   );
 
   return (
@@ -67,7 +47,7 @@ export default function RegisterForm() {
         inputProps={{
           type: 'text',
           name: 'name',
-          value: name,
+          value: newUser.name,
           onChange: handleChange,
         }}
         className={styles.input}
@@ -79,7 +59,7 @@ export default function RegisterForm() {
         inputProps={{
           type: 'email',
           name: 'email',
-          value: email,
+          value: newUser.email,
           onChange: handleChange,
         }}
         className={styles.input}
@@ -91,7 +71,7 @@ export default function RegisterForm() {
         inputProps={{
           type: 'password',
           name: 'password',
-          value: password,
+          value: newUser.password,
           onChange: handleChange,
         }}
         className={styles.input}
