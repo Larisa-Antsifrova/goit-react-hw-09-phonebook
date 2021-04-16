@@ -14,41 +14,28 @@ import styles from './LoginForm.module.css';
 
 export default function LoginForm() {
   // Setting up state for input values
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({ email: '', password: '' });
   // Getting dispatch function
   const dispatch = useDispatch();
 
   // Function to handle inputs
-  const handleChange = useCallback(({ target: { name, value } }) => {
-    switch (name) {
-      case 'email':
-        setEmail(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      default:
-        return;
-    }
-  }, []);
+  const handleChange = useCallback(
+    ({ target: { name, value } }) => {
+      setUser({ ...user, [name]: value });
+    },
+    [user],
+  );
 
   // Function to handle form submit
   const handleSubmit = useCallback(
     event => {
       event.preventDefault();
 
-      const user = {
-        email: email.trim(),
-        password: password.trim(),
-      };
-
       dispatch(loginUser(user));
 
-      setEmail('');
-      setPassword('');
+      setUser({ email: '', password: '' });
     },
-    [dispatch, email, password],
+    [dispatch, user],
   );
 
   return (
@@ -60,7 +47,7 @@ export default function LoginForm() {
         inputProps={{
           type: 'email',
           name: 'email',
-          value: email,
+          value: user.email,
           onChange: handleChange,
         }}
         className={styles.input}
@@ -73,7 +60,7 @@ export default function LoginForm() {
         inputProps={{
           type: 'password',
           name: 'password',
-          value: password,
+          value: user.password,
           onChange: handleChange,
         }}
         className={styles.input}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/Section/Section.module.css","webpack://src/components/PageTitle/PageTitle.module.css"],"names":[],"mappings":"AAAA,wBACE,cACF,CCFA,wBACE,iBAAkB,CAClB,aACF","file":"home-page.11b52b59.chunk.css","sourcesContent":[".section {\n  padding: 20px 0;\n}\n",".title {\n  text-align: center;\n  color: #212121;\n}\n"]}
