@@ -9,6 +9,9 @@ import {
   updateContact,
 } from '../../redux/contacts/contacts-operations';
 
+// Components imports
+import EditorButton from '../EditorButton';
+
 // Helpers imports
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
@@ -115,37 +118,33 @@ export default function ContactListItem({ contact: { id, name, number } }) {
       <div className={styles.btnGroup}>
         {isEdited ? (
           <>
-            <button
-              className={styles.save}
-              onClick={() => onUpdateContact(id, editedContact)}
-            >
-              Save
-            </button>
-            <button
-              className={styles.cancel}
-              onClick={() => setIsEdited(false)}
-            >
-              Cancel
-            </button>
+            <EditorButton
+              label="Save"
+              purpose="save"
+              callback={onUpdateContact}
+              args={[id, editedContact]}
+            />
+            <EditorButton
+              label="Cancel"
+              purpose="cancel"
+              callback={setIsEdited}
+              args={[false]}
+            />
           </>
         ) : (
-          <button
-            className={styles.edit}
-            onClick={() => {
-              setIsEdited(true);
-            }}
-          >
-            Edit
-          </button>
+          <EditorButton
+            label="Edit"
+            purpose="edit"
+            callback={setIsEdited}
+            args={[true]}
+          />
         )}
-        <button
-          className={styles.delete}
-          onClick={() => {
-            onDeleteContact(id);
-          }}
-        >
-          Delete
-        </button>
+        <EditorButton
+          label="Delete"
+          purpose="delete"
+          callback={onDeleteContact}
+          args={[id]}
+        />
       </div>
     </>
   );
