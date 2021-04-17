@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 // Styles imports
 import styles from './EditorButton.module.css';
 
-const EditorButton = ({ label, purpose, callback, args }) => {
+const EditorButton = ({ label, purpose, callback }) => {
   return (
-    <button className={styles[purpose]} onClick={() => callback(...args)}>
+    <button className={styles[purpose]} onClick={() => callback()}>
       {label}
     </button>
   );

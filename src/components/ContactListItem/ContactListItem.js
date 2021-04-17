@@ -108,7 +108,6 @@ export default function ContactListItem({ contact: { id, name, number } }) {
               onChange={handleInputChange}
               required
             />
-
             <input
               type="tel"
               name="number"
@@ -133,29 +132,25 @@ export default function ContactListItem({ contact: { id, name, number } }) {
             <EditorButton
               label="Save"
               purpose="save"
-              callback={onUpdateContact}
-              args={[id, editedContact]}
+              callback={() => onUpdateContact(id, editedContact)}
             />
             <EditorButton
               label="Cancel"
               purpose="cancel"
-              callback={setIsEdited}
-              args={[false]}
+              callback={() => setIsEdited(false)}
             />
           </>
         ) : (
           <EditorButton
             label="Edit"
             purpose="edit"
-            callback={setIsEdited}
-            args={[true]}
+            callback={() => setIsEdited(true)}
           />
         )}
         <EditorButton
           label="Delete"
           purpose="delete"
-          callback={onDeleteContact}
-          args={[id]}
+          callback={() => onDeleteContact(id)}
         />
       </div>
     </li>
