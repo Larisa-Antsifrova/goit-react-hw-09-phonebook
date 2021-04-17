@@ -25,6 +25,16 @@
 
 .edit {
   composes: btn;
+  border: 1px solid #29b6f6;
+  color: #29b6f6;
+}
+.save {
+  composes: btn;
+  border: 1px solid #ffc107;
+  color: #ffc107;
+}
+.cancel {
+  composes: btn;
   border: 1px solid #4caf50;
   color: #4caf50;
 }
@@ -36,6 +46,16 @@
 }
 .edit:hover,
 .edit:focus {
+  color: #ffffff;
+  background-color: #29b6f6;
+}
+.save:hover,
+.save:focus {
+  color: #ffffff;
+  background-color: #ffc107;
+}
+.cancel:hover,
+.cancel:focus {
   color: #ffffff;
   background-color: #4caf50;
 }
