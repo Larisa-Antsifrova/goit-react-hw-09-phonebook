@@ -6,10 +6,7 @@ import ContactListItem from '../ContactListItem';
 
 // Imports from Redux
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  fetchContacts,
-  // deleteContact,
-} from '../../redux/contacts/contacts-operations';
+import { fetchContacts } from '../../redux/contacts/contacts-operations';
 import {
   getFilteredItems,
   getLoading,
@@ -28,11 +25,6 @@ export default function ContactList() {
 
   // Sending HTTP request to fetch contacts
   useEffect(() => dispatch(fetchContacts()), [dispatch]);
-
-  // const onDeleteContact = useCallback(
-  //   contactId => dispatch(deleteContact(contactId)),
-  //   [dispatch],
-  // );
 
   // Getting data from Redux state through selectors
   const filtered = useSelector(getFilteredItems);

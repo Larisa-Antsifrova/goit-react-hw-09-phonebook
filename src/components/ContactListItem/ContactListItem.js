@@ -1,9 +1,11 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { getAllContacts } from '../../redux/contacts/contacts-selectors';
+
 import {
-  fetchContacts,
   deleteContact,
+  updateContact,
 } from '../../redux/contacts/contacts-operations';
 
 // Styles imports
@@ -27,6 +29,28 @@ export default function ContactListItem({ contact: { id, name, number } }) {
   const onDeleteContact = useCallback(
     contactId => dispatch(deleteContact(contactId)),
     [dispatch],
+  );
+
+  const allContacts = useSelector(getAllContacts);
+
+  const onUpdateContact = useCallback(
+    (contactId, editedContact) => {
+      if (!editedContact.name || !editedContact.number) {
+        return;
+      }
+
+      const existingContact = allContacts.find(
+        contact => contact.name === editedContact.name,
+      );
+
+      if (existingContact) {
+        alert(`${existingContact.name} is already in contacts.`);
+        return;
+      }
+
+      dispatch(updateContact(contactId, editedContact));
+    },
+    [allContacts, dispatch],
   );
 
   return (
@@ -61,7 +85,13 @@ export default function ContactListItem({ contact: { id, name, number } }) {
       <div className={styles.btnGroup}>
         {isEdited ? (
           <>
-            <button className={styles.save} onClick={() => {}}>
+            <button
+              className={styles.save}
+              onClick={() => {
+                onUpdateContact(id, editedContact);
+                setIsEdited(false);
+              }}
+            >
               Save
             </button>
             <button
