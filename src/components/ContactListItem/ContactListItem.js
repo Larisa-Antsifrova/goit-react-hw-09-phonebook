@@ -130,28 +130,18 @@ export default function ContactListItem({ contact: { id, name, number } }) {
         {isEdited ? (
           <>
             <EditorButton
-              label="Save"
               purpose="save"
               callback={() => onUpdateContact(id, editedContact)}
             />
             <EditorButton
-              label="Cancel"
               purpose="cancel"
               callback={() => setIsEdited(false)}
             />
           </>
         ) : (
-          <EditorButton
-            label="Edit"
-            purpose="edit"
-            callback={() => setIsEdited(true)}
-          />
+          <EditorButton purpose="edit" callback={() => setIsEdited(true)} />
         )}
-        <EditorButton
-          label="Delete"
-          purpose="delete"
-          callback={() => onDeleteContact(id)}
-        />
+        <EditorButton purpose="delete" callback={() => onDeleteContact(id)} />
       </div>
     </li>
   );

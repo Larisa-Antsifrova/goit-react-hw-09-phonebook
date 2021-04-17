@@ -1,6 +1,7 @@
 .btn {
   padding: 5px;
   margin-left: 10px;
+  text-transform: capitalize;
   border-radius: 7px;
   background-color: transparent;
   cursor: pointer;
