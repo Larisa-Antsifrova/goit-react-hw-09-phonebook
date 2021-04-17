@@ -16,7 +16,7 @@ import {
   deleteContactSuccess,
   deleteContactError,
   updateFilter,
-  // updateContactRequest,
+  updateContactRequest,
   updateContactSuccess,
   updateContactError,
 } from './contacts-actions';
@@ -51,6 +51,12 @@ const loading = createReducer(false, {
   [deleteContactError]: () => false,
 });
 
+const updateLoading = createReducer(false, {
+  [updateContactRequest]: () => true,
+  [updateContactSuccess]: () => false,
+  [updateContactError]: () => false,
+});
+
 // Reducer to handle error
 const error = createReducer(null, {
   [fetchContactsError]: (_, { payload }) => payload,
@@ -64,4 +70,5 @@ export const contactsReducer = combineReducers({
   filter,
   loading,
   error,
+  updateLoading,
 });

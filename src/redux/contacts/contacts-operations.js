@@ -54,12 +54,13 @@ const deleteContact = contactId => async dispatch => {
 };
 
 // Function to update contact from DB
-const updateContact = (contactId, updatedUser) => async dispatch => {
+const updateContact = (contactId, updatedUser, setSaving) => async dispatch => {
   dispatch(updateContactRequest());
 
   try {
     const { data } = await axios.patch(`/contacts/${contactId}`, updatedUser);
     dispatch(updateContactSuccess(data));
+    setSaving(false);
   } catch (error) {
     dispatch(updateContactError(error.message));
   }

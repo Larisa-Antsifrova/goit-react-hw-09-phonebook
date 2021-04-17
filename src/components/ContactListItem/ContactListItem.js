@@ -9,11 +9,16 @@ import {
   updateContact,
 } from '../../redux/contacts/contacts-operations';
 
+// Helpers imports
+import Loader from 'react-loader-spinner';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+
 // Styles imports
 import styles from './ContactListItem.module.css';
 
 export default function ContactListItem({ contact: { id, name, number } }) {
   const [isEdited, setIsEdited] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const [editedContact, setEditedContact] = useState({
     name: name,
@@ -28,10 +33,7 @@ export default function ContactListItem({ contact: { id, name, number } }) {
   );
 
   const dispatch = useDispatch();
-  const onDeleteContact = useCallback(
-    contactId => dispatch(deleteContact(contactId)),
-    [dispatch],
-  );
+  const onDeleteContact = contactId => dispatch(deleteContact(contactId));
 
   const allContacts = useSelector(getAllContacts);
 
@@ -56,11 +58,28 @@ export default function ContactListItem({ contact: { id, name, number } }) {
         return;
       }
 
-      dispatch(updateContact(contactId, editedContact));
+      const theSameContact = allContacts.find(
+        contact => contact.name === editedContact.name && contact.id === id,
+      );
+
+      if (theSameContact) {
+        setIsEdited(false);
+        return;
+      }
+      setSaving(true);
+      dispatch(updateContact(contactId, editedContact, setSaving));
+
       setIsEdited(false);
     },
     [allContacts, dispatch, id, name, number],
   );
+
+  const loaderConfig = {
+    type: 'TailSpin',
+    color: '#80cbc4',
+    height: 30,
+    width: 30,
+  };
 
   return (
     <>
@@ -83,6 +102,8 @@ export default function ContactListItem({ contact: { id, name, number } }) {
               required
             />
           </div>
+        ) : saving ? (
+          <Loader {...loaderConfig} />
         ) : (
           <>
             <p className={styles.info}>{name}:</p>

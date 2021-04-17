@@ -20,5 +20,12 @@ const getFilteredItems = createSelector(
 
 // Selector to get loading status
 const getLoading = state => state.contacts.loading;
+const getUpdateLoading = state => state.contacts.updateLoading;
 
-export { getFilterValue, getAllContacts, getFilteredItems, getLoading };
+export {
+  getFilterValue,
+  getAllContacts,
+  getFilteredItems,
+  getLoading,
+  getUpdateLoading,
+};
