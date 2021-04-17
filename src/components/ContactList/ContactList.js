@@ -1,11 +1,14 @@
 // React imports
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
+
+// Components imports
+import ContactListItem from '../ContactListItem';
 
 // Imports from Redux
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchContacts,
-  deleteContact,
+  // deleteContact,
 } from '../../redux/contacts/contacts-operations';
 import {
   getFilteredItems,
@@ -26,10 +29,11 @@ export default function ContactList() {
   // Sending HTTP request to fetch contacts
   useEffect(() => dispatch(fetchContacts()), [dispatch]);
 
-  const onDeleteContact = useCallback(
-    contactId => dispatch(deleteContact(contactId)),
-    [dispatch],
-  );
+  // const onDeleteContact = useCallback(
+  //   contactId => dispatch(deleteContact(contactId)),
+  //   [dispatch],
+  // );
+
   // Getting data from Redux state through selectors
   const filtered = useSelector(getFilteredItems);
   const isLoading = useSelector(getLoading);
@@ -48,21 +52,9 @@ export default function ContactList() {
 
       {!_.isEmpty(filtered) && (
         <ul className={styles.contacts}>
-          {filtered.map(({ id, name, number }) => (
-            <li key={id} className={styles.item}>
-              <div>
-                <p>{name}:</p>
-                <p>{number}</p>
-              </div>
-
-              <button
-                className={styles.btn}
-                onClick={() => {
-                  onDeleteContact(id);
-                }}
-              >
-                Delete
-              </button>
+          {filtered.map(contact => (
+            <li key={contact.id} className={styles.item}>
+              <ContactListItem contact={contact} />
             </li>
           ))}
         </ul>

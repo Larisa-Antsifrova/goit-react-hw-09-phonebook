@@ -1,0 +1,41 @@
+.info {
+  margin: 0 0 10px;
+}
+
+.btnGroup {
+  margin-left: auto;
+}
+
+.btn {
+  padding: 5px;
+  margin-left: 10px;
+
+  border-radius: 7px;
+
+  background-color: transparent;
+
+  cursor: pointer;
+}
+
+.delete {
+  composes: btn;
+  border: 1px solid #ff8a80;
+  color: #ff8a80;
+}
+
+.edit {
+  composes: btn;
+  border: 1px solid #4caf50;
+  color: #4caf50;
+}
+
+.delete:hover,
+.delete:focus {
+  color: #ffffff;
+  background-color: #ff8a80;
+}
+.edit:hover,
+.edit:focus {
+  color: #ffffff;
+  background-color: #4caf50;
+}
