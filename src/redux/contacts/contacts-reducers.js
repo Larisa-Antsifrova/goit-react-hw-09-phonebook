@@ -16,6 +16,9 @@ import {
   deleteContactSuccess,
   deleteContactError,
   updateFilter,
+  updateContactRequest,
+  updateContactSuccess,
+  updateContactError,
 } from './contacts-actions';
 import { logoutSuccess } from '../auth/auth-actions';
 
@@ -26,6 +29,8 @@ const items = createReducer([], {
   [deleteContactSuccess]: (state, { payload }) =>
     state.filter(contact => contact.id !== payload),
   [logoutSuccess]: () => [],
+  [updateContactSuccess]: (state, { payload }) =>
+    state.map(contact => (contact.id === payload.id ? payload : contact)),
 });
 
 // Reducer to handle filter value
@@ -46,11 +51,18 @@ const loading = createReducer(false, {
   [deleteContactError]: () => false,
 });
 
+const updateLoading = createReducer(false, {
+  [updateContactRequest]: () => true,
+  [updateContactSuccess]: () => false,
+  [updateContactError]: () => false,
+});
+
 // Reducer to handle error
 const error = createReducer(null, {
   [fetchContactsError]: (_, { payload }) => payload,
   [addContactError]: (_, { payload }) => payload,
   [deleteContactError]: (_, { payload }) => payload,
+  [updateContactError]: (_, { payload }) => payload,
 });
 
 export const contactsReducer = combineReducers({
@@ -58,4 +70,5 @@ export const contactsReducer = combineReducers({
   filter,
   loading,
   error,
+  updateLoading,
 });

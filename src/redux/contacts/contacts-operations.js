@@ -9,6 +9,9 @@ import {
   deleteContactRequest,
   deleteContactSuccess,
   deleteContactError,
+  updateContactRequest,
+  updateContactSuccess,
+  updateContactError,
 } from './contacts-actions';
 
 // Imports of libraries
@@ -50,4 +53,17 @@ const deleteContact = contactId => async dispatch => {
   }
 };
 
-export { fetchContacts, addContact, deleteContact };
+// Function to update contact from DB
+const updateContact = (contactId, updatedUser, setSaving) => async dispatch => {
+  dispatch(updateContactRequest());
+
+  try {
+    const { data } = await axios.patch(`/contacts/${contactId}`, updatedUser);
+    dispatch(updateContactSuccess(data));
+    setSaving(false);
+  } catch (error) {
+    dispatch(updateContactError(error.message));
+  }
+};
+
+export { fetchContacts, addContact, deleteContact, updateContact };
