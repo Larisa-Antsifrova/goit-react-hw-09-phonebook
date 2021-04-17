@@ -1,8 +1,9 @@
+// React imports
 import React, { useCallback, useState } from 'react';
 
+// Imports from Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllContacts } from '../../redux/contacts/contacts-selectors';
-
 import {
   deleteContact,
   updateContact,
@@ -13,6 +14,7 @@ import styles from './ContactListItem.module.css';
 
 export default function ContactListItem({ contact: { id, name, number } }) {
   const [isEdited, setIsEdited] = useState(false);
+
   const [editedContact, setEditedContact] = useState({
     name: name,
     number: number,
@@ -36,28 +38,35 @@ export default function ContactListItem({ contact: { id, name, number } }) {
   const onUpdateContact = useCallback(
     (contactId, editedContact) => {
       if (!editedContact.name || !editedContact.number) {
+        setEditedContact({
+          name: name,
+          number: number,
+        });
+        setIsEdited(true);
         return;
       }
 
       const existingContact = allContacts.find(
-        contact => contact.name === editedContact.name,
+        contact => contact.name === editedContact.name && contact.id !== id,
       );
 
       if (existingContact) {
         alert(`${existingContact.name} is already in contacts.`);
+        setIsEdited(true);
         return;
       }
 
       dispatch(updateContact(contactId, editedContact));
+      setIsEdited(false);
     },
-    [allContacts, dispatch],
+    [allContacts, dispatch, id, name, number],
   );
 
   return (
     <>
       <div>
         {isEdited ? (
-          <>
+          <div className={styles.editorInput}>
             <input
               type="name"
               name="name"
@@ -73,7 +82,7 @@ export default function ContactListItem({ contact: { id, name, number } }) {
               onChange={handleInputChange}
               required
             />
-          </>
+          </div>
         ) : (
           <>
             <p className={styles.info}>{name}:</p>
@@ -87,18 +96,13 @@ export default function ContactListItem({ contact: { id, name, number } }) {
           <>
             <button
               className={styles.save}
-              onClick={() => {
-                onUpdateContact(id, editedContact);
-                setIsEdited(false);
-              }}
+              onClick={() => onUpdateContact(id, editedContact)}
             >
               Save
             </button>
             <button
               className={styles.cancel}
-              onClick={() => {
-                setIsEdited(false);
-              }}
+              onClick={() => setIsEdited(false)}
             >
               Cancel
             </button>

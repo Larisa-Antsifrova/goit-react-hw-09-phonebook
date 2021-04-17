@@ -2,6 +2,20 @@
   margin: 0 0 10px;
 }
 
+.editorInput input {
+  display: block;
+  margin-bottom: 10px;
+  border: 2px solid #757575;
+  border-radius: 7px;
+  height: 30px;
+  padding: 5px;
+  outline: none;
+}
+
+.editorInput input:focus {
+  border: 2px solid #26c6da;
+}
+
 .btnGroup {
   margin-left: auto;
 }
