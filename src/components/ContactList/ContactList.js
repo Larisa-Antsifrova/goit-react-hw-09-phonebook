@@ -44,14 +44,9 @@ export default function ContactList() {
 
       {!_.isEmpty(filtered) && (
         <ul className={styles.contacts}>
-          {filtered.map(contact => {
-            // console.log(`Render ${contact.name}`);
-            return (
-              <li key={contact.id} className={styles.item}>
-                <ContactListItem contact={contact} />
-              </li>
-            );
-          })}
+          {filtered.map(contact => (
+            <ContactListItem key={contact.id} contact={contact} />
+          ))}
         </ul>
       )}
 
